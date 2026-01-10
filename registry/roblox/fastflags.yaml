@@ -1,9 +1,10 @@
 schema:
   title: Roblox Fast Flags
-  description: >
-    Validation schema for Roblox ClientAppSettings Fast Flags.
+  description: Validation schema for Roblox ClientAppSettings Fast Flags
   type: object
   additionalProperties: false
+  version: "1.0.0"
+
 
 flags:
   FFlagDebugGraphicsPreferVulkan:

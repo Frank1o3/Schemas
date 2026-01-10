@@ -1,4 +1,6 @@
-import yaml, json, pathlib
+import yaml
+import json
+import pathlib
 from jsonschema import validate
 
 ROOT = pathlib.Path(__file__).parents[1]

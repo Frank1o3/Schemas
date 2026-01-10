@@ -1,4 +1,5 @@
-import yaml, pathlib
+import yaml
+import pathlib
 
 ROOT = pathlib.Path(__file__).parents[1]
 REGISTRY = ROOT / "registry"
@@ -9,7 +10,7 @@ for file in REGISTRY.rglob("*.y*ml"):
     out = DOCS / file.relative_to(REGISTRY).with_suffix(".md")
     out.parent.mkdir(parents=True, exist_ok=True)
 
-    lines = [
+    lines:list[str] = [
         f"# {data['schema']['title']}",
         "",
         data['schema'].get("description", ""),
