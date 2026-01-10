@@ -1,0 +1,28 @@
+schema:
+  title: Roblox Fast Flags
+  description: >
+    Validation schema for Roblox ClientAppSettings Fast Flags.
+  type: object
+  additionalProperties: false
+
+flags:
+  FFlagDebugGraphicsPreferVulkan:
+    type: boolean
+    description: Prefer Vulkan rendering backend
+    allowListStatus: allowed
+    source: roblox-allowlist
+
+  DFIntTextureQualityOverride:
+    type: integer
+    minimum: 0
+    maximum: 3
+    description: Overrides texture quality level
+    allowListStatus: allowed
+
+  DFIntTaskSchedulerTargetFps:
+    type: integer
+    minimum: 30
+    maximum: 1000
+    description: Community FPS scheduler flag
+    allowListStatus: not-allowlisted
+    notes: Ignored by current Roblox clients

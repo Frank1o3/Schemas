@@ -1,0 +1,25 @@
+# `docs/index.md`
+
+**Purpose:** Landing page for rendered docs (GitHub Pages–friendly).
+
+## Recommended content
+
+```md
+# Schema Documentation
+
+Welcome to the Schemas documentation.
+
+This site contains human-readable explanations of all schemas in this repository, including:
+
+- Field descriptions
+- Validation rules
+- Known limitations
+- Runtime compatibility notes
+
+## Available Schemas
+
+### Roblox
+- **Fast Flags**  
+  Configuration validation for Roblox `ClientAppSettings.json`, including allow-listed and community-discovered flags.
+
+More schemas will be added over time.
