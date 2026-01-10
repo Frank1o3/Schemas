@@ -7,7 +7,7 @@ REGISTRY_DIR = ROOT / "registry"
 OUTPUT_DIR = ROOT / "docs" / "schemas"
 
 JSON_SCHEMA_VERSION = "https://json-schema.org/draft/2020-12/schema"
-BASE_ID = "https://frank1o3.github.io/Schemas/docs/schemas"
+BASE_ID = "https://frank1o3.github.io/Schemas/schemas"
 
 
 def generate_schema(registry_file: pathlib.Path):
