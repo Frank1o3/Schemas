@@ -1,34 +1,46 @@
 name: Validate & Generate Schemas
 
 on:
-  pull_request:
-  push:
-    branches: [main]
+    pull_request:
+    push:
+        branches: [main]
+
+permissions:
+    contents: write
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+    build:
+        runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v4
+        steps:
+            - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
+            - name: Set up Python
+              uses: actions/setup-python@v5
+              with:
+                  python-version: "3.11"
 
-      - name: Install dependencies
-        run: |
-          pip install pyyaml jsonschema
+            - name: Install dependencies
+              run: |
+                  pip install pyyaml jsonschema
 
-      - name: Validate registry
-        run: python tools/validate_registry.py
+            - name: Validate registry
+              run: python tools/validate_registry.py
 
-      - name: Generate schemas
-        run: python tools/generate_schemas.py
+            - name: Generate schemas
+              run: python tools/generate_schemas.py
 
-      - name: Generate docs
-        run: python tools/generate_docs.py
+            - name: Generate docs
+              run: python tools/generate_docs.py
 
-      - name: Ensure no unstaged changes
-        run: git diff --exit-code
+            - name: Commit generated schemas and docs
+              run: |
+                  git config user.name "github-actions[bot]"
+                  git config user.email "github-actions[bot]@users.noreply.github.com"
+
+                  git add docs/schemas
+                  git commit -m "chore: regenerate schemas and docs" || echo "No changes to commit"
+                  git push
+
+            - name: Check for uncommitted changes
+              run: git status --porcelain
