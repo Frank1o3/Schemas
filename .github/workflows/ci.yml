@@ -66,5 +66,5 @@ jobs:
       run: |
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
-        git add docs/schemas/
+        git add docs/
         git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-generate schemas and docs [skip ci]" && git push)
