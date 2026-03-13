@@ -44,10 +44,6 @@ venv.bak/
 .coverage
 htmlcov/
 
-# Generated files
-docs/schemas/
-*.schema.json  # If these are generated, not source
-
 # OS
 .DS_Store
 Thumbs.db
