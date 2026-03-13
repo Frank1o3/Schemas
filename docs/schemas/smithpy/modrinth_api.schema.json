@@ -6,17 +6,22 @@
   "type": "object",
   "additionalProperties": false,
   "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri",
+      "description": "Optional schema reference"
+    },
     "BASE_URL": {
       "type": "string",
-      "description": "Base Modrinth API URL",
+      "format": "uri",
       "pattern": "^https://",
-      "x-format": "uri"
+      "description": "Base Modrinth API URL"
     },
     "ENDPOINTS": {
       "type": "object",
       "description": "Modrinth API endpoint mappings",
-      "x-additionalProperties": false,
-      "x-required": [
+      "additionalProperties": false,
+      "required": [
         "search",
         "projects",
         "versions",
@@ -25,7 +30,7 @@
         "user",
         "bulk"
       ],
-      "x-properties": {
+      "properties": {
         "search": {
           "type": "string",
           "description": "Search endpoint"

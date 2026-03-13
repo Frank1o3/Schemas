@@ -9,23 +9,23 @@
     "FFlagDebugGraphicsPreferVulkan": {
       "type": "boolean",
       "description": "Prefer Vulkan rendering backend",
-      "x-allowListStatus": "allowed",
-      "x-source": "roblox-allowlist"
+      "allowListStatus": "allowed",
+      "source": "roblox-allowlist"
     },
     "DFIntTextureQualityOverride": {
       "type": "integer",
-      "description": "Overrides texture quality level",
       "minimum": 0,
       "maximum": 3,
-      "x-allowListStatus": "allowed"
+      "description": "Overrides texture quality level",
+      "allowListStatus": "allowed"
     },
     "DFIntTaskSchedulerTargetFps": {
       "type": "integer",
-      "description": "Community FPS scheduler flag",
       "minimum": 30,
       "maximum": 1000,
-      "x-allowListStatus": "not-allowlisted",
-      "x-notes": "Ignored by current Roblox clients"
+      "description": "Community FPS scheduler flag",
+      "allowListStatus": "not-allowlisted",
+      "notes": "Ignored by current Roblox clients"
     }
   }
 }

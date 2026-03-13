@@ -4,6 +4,12 @@ Schema for Modrinth API endpoint configuration
 
 ## Configuration Flags
 
+### `$schema`
+
+**Type:** `string`
+
+Optional schema reference
+
 ### `BASE_URL`
 
 **Type:** `string`

@@ -9,7 +9,7 @@
     "mod_policies": {
       "type": "object",
       "description": "Mod conflict and dependency policies",
-      "x-additionalProperties": {
+      "additionalProperties": {
         "type": "object",
         "required": [
           "conflicts",
