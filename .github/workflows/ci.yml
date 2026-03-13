@@ -1,46 +1,49 @@
-name: Validate & Generate Schemas
+name: Build and Validate
 
 on:
-    pull_request:
-    push:
-        branches: [main]
-
-permissions:
-    contents: write
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
-
-        steps:
-            - uses: actions/checkout@v4
-
-            - name: Set up Python
-              uses: actions/setup-python@v5
-              with:
-                  python-version: "3.11"
-
-            - name: Install dependencies
-              run: |
-                  pip install pyyaml jsonschema
-
-            - name: Validate registry
-              run: python tools/validate_registry.py
-
-            - name: Generate schemas
-              run: python tools/generate_schemas.py
-
-            - name: Generate docs
-              run: python tools/generate_docs.py
-
-            - name: Commit generated schemas and docs
-              run: |
-                  git config user.name "github-actions[bot]"
-                  git config user.email "github-actions[bot]@users.noreply.github.com"
-
-                  git add docs/schemas
-                  git commit -m "chore: regenerate schemas and docs" || echo "No changes to commit"
-                  git push
-
-            - name: Check for uncommitted changes
-              run: git status --porcelain
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
+    
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
+      with:
+        version: latest
+        virtualenvs-create: true
+        virtualenvs-in-project: true
+    
+    - name: Load cached venv
+      id: cached-poetry-dependencies
+      uses: actions/cache@v4
+      with:
+        path: .venv
+        key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
+    
+    - name: Install dependencies
+      if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+      run: poetry install --no-interaction --no-root
+    
+    - name: Install project
+      run: poetry install --no-interaction
+    
+    - name: Validate registry
+      run: poetry run python tools/validate_registry.py
+    
+    - name: Generate schemas
+      run: poetry run python tools/generate_schemas.py
+    
+    - name: Generate docs
+      run: poetry run python tools/generate_docs.py
