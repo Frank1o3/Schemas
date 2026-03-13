@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://frank1o3.github.io/Schemas/smithpy/policy.schema.json#v0.0.0",
+  "title": "SmithPy Mod Policy Schema",
+  "description": "Defines mod conflict and dependency rules for SmithPy",
+  "type": "object",
+  "$comment": "Generated from registry YAML. Do not edit manually.",
+  "additionalProperties": {
+    "type": "object",
+    "required": [
+      "conflicts",
+      "sub_mods"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "conflicts": {
+        "type": "array",
+        "uniqueItems": true,
+        "items": {
+          "type": "string",
+          "pattern": "^[a-z0-9_.-]+$"
+        }
+      },
+      "sub_mods": {
+        "type": "array",
+        "uniqueItems": true,
+        "items": {
+          "type": "string",
+          "pattern": "^[a-z0-9_.-]+$"
+        }
+      }
+    }
+  }
+}
