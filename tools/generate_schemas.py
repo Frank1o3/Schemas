@@ -23,9 +23,6 @@ def generate_schema(registry_file: pathlib.Path):
     relative_path = registry_file.relative_to(REGISTRY_DIR).with_suffix(".schema.json")
     schema_id = f"{BASE_ID}/{relative_path.as_posix()}"
 
-    version = schema_meta.get("version", "0.0.0")
-    schema_id = f"{schema_id}#v{version}"
-
     # Base schema
     schema = {
         "$schema": JSON_SCHEMA_VERSION,
