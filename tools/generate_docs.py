@@ -155,7 +155,7 @@ def main():
 
             relative_yaml = yaml_file.relative_to(REGISTRY)
             relative_doc = out.relative_to(ROOT)
-            url = f"https://frank1o3.github.io/Schemas/schemas/{relative_yaml.with_suffix('')}"
+            url = f"https://frank1o3.github.io/Schemas/{relative_yaml.with_suffix('')}"
 
             print(f"✓ {relative_yaml}")
             print(f"  → {relative_doc}")
