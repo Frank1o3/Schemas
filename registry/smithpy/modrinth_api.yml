@@ -9,6 +9,11 @@ schema:
     - ENDPOINTS
 
 flags:
+  $schema:
+    type: string
+    format: uri
+    description: Optional schema reference
+
   BASE_URL:
     type: string
     format: uri
