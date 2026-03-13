@@ -11,6 +11,7 @@ BASE_ID = "https://frank1o3.github.io/Schemas/schemas"
 
 
 def generate_schema(registry_file: pathlib.Path):
+    """Generate JSON Schema from registry YAML file."""
     with registry_file.open() as f:
         data = yaml.safe_load(f)
 
@@ -34,6 +35,7 @@ def generate_schema(registry_file: pathlib.Path):
         "properties": {}
     }
 
+    # If there are flags, add them as properties
     for flag, meta in flags.items():
         prop = {
             "type": meta["type"],
@@ -52,21 +54,66 @@ def generate_schema(registry_file: pathlib.Path):
 
         schema["properties"][flag] = prop
 
+    # If schema has custom additionalProperties structure, preserve it
+    if "additionalProperties" in schema_meta and isinstance(schema_meta["additionalProperties"], dict):
+        schema["additionalProperties"] = schema_meta["additionalProperties"]
+
     return schema
 
 
 def main():
-    for yaml_file in REGISTRY_DIR.rglob("*.y*ml"):
-        relative = yaml_file.relative_to(REGISTRY_DIR)
-        output_path = OUTPUT_DIR / relative.with_suffix(".schema.json")
+    """Generate JSON schemas for all registry YAML files."""
+    print(f"Searching for YAML files in {REGISTRY_DIR.relative_to(ROOT)}")
+    print(f"Output directory: {OUTPUT_DIR.relative_to(ROOT)}")
+    print(f"Base URL: {BASE_ID}")
+    print(f"\n{'='*60}")
+    
+    generated = []
+    errors = []
+    
+    for yaml_file in sorted(REGISTRY_DIR.rglob("*.y*ml")):
+        try:
+            relative = yaml_file.relative_to(REGISTRY_DIR)
+            output_path = OUTPUT_DIR / relative.with_suffix(".schema.json")
 
-        output_path.parent.mkdir(parents=True, exist_ok=True)
+            # Create output directory
+            output_path.parent.mkdir(parents=True, exist_ok=True)
 
-        schema = generate_schema(yaml_file)
-        output_path.write_text(json.dumps(schema, indent=2))
-
-        print(f"Generated {output_path}")
+            # Generate schema
+            schema = generate_schema(yaml_file)
+            
+            # Write to file
+            output_path.write_text(json.dumps(schema, indent=2))
+            
+            # Track success
+            generated.append((yaml_file, output_path))
+            
+            # Print output
+            url = schema["$id"].split("#")[0]  # Remove version anchor
+            print(f"✓ {relative}")
+            print(f"  → {output_path.relative_to(ROOT)}")
+            print(f"  🌐 {url}")
+            
+        except Exception as e:
+            errors.append((yaml_file, e))
+            print(f"✗ {yaml_file.relative_to(REGISTRY_DIR)}")
+            print(f"  Error: {e}")
+    
+    # Summary
+    print(f"\n{'='*60}")
+    print("Schema Generation Summary:")
+    print(f"  ✓ Generated: {len(generated)}")
+    print(f"  ✗ Failed: {len(errors)}")
+    print(f"{'='*60}\n")
+    
+    if errors:
+        print("Failed files:")
+        for file, error in errors:
+            print(f"  - {file.relative_to(REGISTRY_DIR)}: {error}")
+        return 1
+    
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    exit(main())

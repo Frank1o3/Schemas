@@ -1,4 +1,4 @@
-name: Build and Validate
+name: Build and Publish Schemas
 
 on:
   push:
@@ -6,12 +6,17 @@ on:
   pull_request:
     branches: [ main ]
 
+permissions:
+  contents: write  # Required to push changes back to repo
+
 jobs:
   build:
     runs-on: ubuntu-latest
     
     steps:
     - uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
     
     - name: Set up Python
       uses: actions/setup-python@v5
@@ -44,3 +49,11 @@ jobs:
     
     - name: Generate docs
       run: poetry run python tools/generate_docs.py
+    
+    - name: Commit and push changes
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git add docs/schemas/
+        git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-generate schemas and docs [skip ci]" && git push)
