@@ -21,10 +21,26 @@
                 "type": {
                     "type": "string"
                 },
+                "required": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "properties": {
+                    "type": "object"
+                },
                 "additionalProperties": {
-                    "type": "boolean"
+                    "type": [
+                        "boolean",
+                        "object"
+                    ]
+                },
+                "$defs": {
+                    "type": "object"
                 }
-            }
+            },
+            "additionalProperties": true
         },
         "flags": {
             "type": "object",
@@ -53,12 +69,30 @@
                     "maximum": {
                         "type": "number"
                     },
+                    "pattern": {
+                        "type": "string"
+                    },
                     "enum": {
                         "type": "array"
-                    }
+                    },
+                    "default": {}
                 },
                 "additionalProperties": true
             }
         }
-    }
+    },
+    "anyOf": [
+        {
+            "required": [
+                "flags"
+            ]
+        },
+        {
+            "not": {
+                "required": [
+                    "flags"
+                ]
+            }
+        }
+    ]
 }
