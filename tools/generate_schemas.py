@@ -29,7 +29,6 @@ def generate_schema(registry_file: pathlib.Path):
     # Base schema
     schema = {
         "$schema": JSON_SCHEMA_VERSION,
-        "$id": schema_id,
         "title": schema_meta.get("title"),
         "description": schema_meta.get("description"),
         "type": schema_meta.get("type", "object"),
