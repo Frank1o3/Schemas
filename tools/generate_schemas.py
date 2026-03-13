@@ -4,10 +4,10 @@ import pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 REGISTRY_DIR = ROOT / "registry"
-OUTPUT_DIR = ROOT / "docs" / "schemas"
+OUTPUT_DIR = ROOT / "docs"
 
 JSON_SCHEMA_VERSION = "https://json-schema.org/draft/2020-12/schema"
-BASE_ID = "https://frank1o3.github.io/Schemas/schemas"
+BASE_ID = "https://frank1o3.github.io/Schemas"
 
 
 def generate_schema(registry_file: pathlib.Path):
@@ -34,8 +34,11 @@ def generate_schema(registry_file: pathlib.Path):
         "description": schema_meta.get("description"),
         "type": schema_meta.get("type", "object"),
     }
+    schema["$comment"] = "Generated from registry YAML. Do not edit manually."
 
-    # Preserve additionalProperties if present
+    if "required" in schema_meta:
+        schema["required"] = schema_meta["required"]
+
     if "additionalProperties" in schema_meta:
         schema["additionalProperties"] = schema_meta["additionalProperties"]
 
@@ -61,7 +64,7 @@ def main():
     print(f"Searching for YAML files in {REGISTRY_DIR.relative_to(ROOT)}")
     print(f"Output directory: {OUTPUT_DIR.relative_to(ROOT)}")
     print(f"Base URL: {BASE_ID}")
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
 
     generated = []
     errors = []
@@ -91,11 +94,11 @@ def main():
             print(f"✗ {yaml_file.relative_to(REGISTRY_DIR)}")
             print(f"  Error: {e}")
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print("Schema Generation Summary:")
     print(f"  ✓ Generated: {len(generated)}")
     print(f"  ✗ Failed: {len(errors)}")
-    print(f"{'='*60}\n")
+    print(f"{'=' * 60}\n")
 
     if errors:
         print("Failed files:")

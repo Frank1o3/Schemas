@@ -2,30 +2,29 @@ schema:
   title: SmithPy Mod Policy Schema
   description: Defines mod conflict and dependency rules for SmithPy
   type: object
-  additionalProperties: false
 
-flags:
-  mod_policies:
+  properties:
+    $schema:
+      type: string
+      format: uri
+
+  additionalProperties:
     type: object
-    description: Mod conflict and dependency policies
-    additionalProperties:
-      type: object
-      required:
-        - conflicts
-        - sub_mods
-      properties:
-        conflicts:
-          type: array
-          description: Mods that conflict with this mod
-          uniqueItems: true
-          items:
-            type: string
-            pattern: "^[a-z0-9_.-]+$"
-        
-        sub_mods:
-          type: array
-          description: Mods that should be auto-added when this mod is selected
-          uniqueItems: true
-          items:
-            type: string
-            pattern: "^[a-z0-9_.-]+$"
+    required:
+      - conflicts
+      - sub_mods
+    additionalProperties: false
+    properties:
+      conflicts:
+        type: array
+        uniqueItems: true
+        items:
+          type: string
+          pattern: "^[a-z0-9_.-]+$"
+
+      sub_mods:
+        type: array
+        uniqueItems: true
+        items:
+          type: string
+          pattern: "^[a-z0-9_.-]+$"

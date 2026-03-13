@@ -3,7 +3,7 @@ import pathlib
 
 ROOT = pathlib.Path(__file__).parents[1]
 REGISTRY = ROOT / "registry"
-DOCS = ROOT / "docs" / "schemas"
+DOCS = ROOT / "docs"
 
 
 def generate_doc(yaml_file: pathlib.Path):
@@ -124,7 +124,7 @@ def generate_doc(yaml_file: pathlib.Path):
             )
 
     # Add JSON Schema link
-    schema_url = f"https://frank1o3.github.io/Schemas/schemas/{relative_path.as_posix()}.schema.json"
+    schema_url = f"https://frank1o3.github.io/Schemas/{relative_path.as_posix()}.schema.json"
     lines.extend(
         [
             "## JSON Schema",
